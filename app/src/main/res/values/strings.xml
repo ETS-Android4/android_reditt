@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Registration</string>
+
+    <string-array name="countries">
+        <item>France</item>
+        <item>Brazil</item>
+        <item>Spain</item>
+        <item>Italy</item>
+        <item>Hungary</item>
+        <item>New Zealand</item>
+        <item>USA</item>
+        <item>Turkey</item>
+        <item>Portugal</item>
+        <item>Qatar</item>
+        <item>Morocco</item>
+        <item>Malta</item>
+        <item>Greece</item>
+        <item>Finland</item>
+        <item>Germany</item>
+    </string-array>
+
 </resources>
