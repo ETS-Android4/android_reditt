@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.MyApplication.NoActionBar"></activity>
+        <activity
             android:name=".ProfilePicsActivity2"
             android:exported="false" />
         <activity
