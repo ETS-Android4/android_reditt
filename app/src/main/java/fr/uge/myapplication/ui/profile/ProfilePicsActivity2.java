@@ -1,4 +1,4 @@
-package fr.uge.myapplication;
+package fr.uge.myapplication.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -6,14 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Vector;
+
+import fr.uge.myapplication.MainActivity;
+import fr.uge.myapplication.R;
 
 public class ProfilePicsActivity2 extends AppCompatActivity {
 

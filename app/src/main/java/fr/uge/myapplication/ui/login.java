@@ -1,4 +1,4 @@
-package fr.uge.myapplication;
+package fr.uge.myapplication.ui;
 
 import android.os.Bundle;
 
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+
+import fr.uge.myapplication.R;
 
 public class login extends AppCompatActivity {
 

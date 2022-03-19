@@ -9,18 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
+        <activity android:name=".ui.PostList"></activity>
+        <activity android:name=".ui.newPost" />
         <activity
-            android:name=".login"
+            android:name=".ui.login"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.MyApplication.NoActionBar"></activity>
+            android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
-            android:name=".ProfilePicsActivity2"
+            android:name=".ui.profile.ProfilePicsActivity2"
             android:exported="false" />
         <activity
-            android:name=".ProfileInfoModifyActivity2"
+            android:name=".ui.profile.ProfileInfoModifyActivity2"
             android:exported="false" />
         <activity
-            android:name=".ProfilePageActivity2"
+            android:name=".ui.profile.ProfilePageActivity2"
             android:exported="false" />
         <activity android:name=".MainActivity">
             <intent-filter>

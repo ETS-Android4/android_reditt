@@ -1,4 +1,4 @@
-package fr.uge.myapplication;
+package fr.uge.myapplication.ui.profile;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import fr.uge.myapplication.MainActivity;
+import fr.uge.myapplication.R;
 
 public class ProfileInfoModifyActivity2 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
