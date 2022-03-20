@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".ui.PostList"></activity>
+        <activity android:name=".ui.Postdetail"></activity>
+        <activity android:name=".ui.PostList" />
         <activity android:name=".ui.newPost" />
         <activity
             android:name=".ui.login"

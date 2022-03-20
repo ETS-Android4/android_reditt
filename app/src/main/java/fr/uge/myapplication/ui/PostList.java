@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+import java.util.Vector;
+
 import fr.uge.myapplication.R;
+import fr.uge.myapplication.model.PC;
 
 public class PostList extends AppCompatActivity  {
 
@@ -19,13 +23,16 @@ public class PostList extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+
         recycle = findViewById(R.id.Ryc);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         PostAdapter postAdapter = new PostAdapter(this);
         postAdapter.setItemClickListener(new PostAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-
+                Intent intent = new Intent(PostList.this,Postdetail.class);
+                //intent.putExtra()
+                startActivity(intent);
             }
         });
         recycle.setAdapter(postAdapter);
