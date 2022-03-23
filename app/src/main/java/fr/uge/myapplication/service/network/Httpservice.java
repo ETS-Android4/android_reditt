@@ -1,6 +1,9 @@
 package fr.uge.myapplication.service.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -10,7 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -20,39 +25,27 @@ public class Httpservice {
     private final static Httpservice instance = new Httpservice();
     private Context ctx;
     private RequestQueue queue;
+    private String resps ;
 
 
     private Httpservice(){
-
     }
 
     public void setCtx(Context ctx) {
         this.ctx = ctx;
+        queue = Volley.newRequestQueue(ctx);
     }
 
     public static Httpservice getinstance(){
         return instance;
     }
 
-    public HttpResponseObject postRequest(String url, JSONObject jsonBody){
+
+    public void postRequest(String url, JSONObject jsonBody , Response.Listener listener,Response.ErrorListener error){
         final HttpResponseObject[] resp = new HttpResponseObject[1];
         final String requestBody = jsonBody.toString();
-        StringRequest request = new StringRequest(Request.Method.POST, url ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        resp[0] = new HttpResponseObject(response.split(",")[0],response.split(",")[1]);
-                        System.out.println(response);
-                    }
+        StringRequest request = new StringRequest(Request.Method.POST, url ,listener,error){
 
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.getMessage());
-                    }
-                }
-        ){
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
@@ -68,9 +61,9 @@ public class Httpservice {
                 }
             }
 
-            @Override
-            protected Response < String > parseNetworkResponse(NetworkResponse response) {
 
+            @Override
+            protected Response <String> parseNetworkResponse(NetworkResponse response) {
                 String parsed = String.valueOf(response.statusCode);
                 try {
                     if(response.statusCode == 200) {
@@ -85,9 +78,13 @@ public class Httpservice {
 
             }
 
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                System.out.println("error");
+                return super.parseNetworkError(volleyError);
+            }
         };
         queue.add(request);
-        return resp[0];
     }
 
     public HttpResponseObject getRequest(String url){
@@ -128,5 +125,30 @@ public class Httpservice {
         };
         queue.add(request);
         return resp[0];
+    }
+
+    public JSONObject getjsonObject(String url){
+        final HttpResponseObject[] resp = new HttpResponseObject[1];
+        final JSONObject[] jsonObject = {null};
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                jsonObject[0] = response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+
+        };
+
+        queue.add(request);
+        return jsonObject[0];
+    }
+
+    public String getResps() {
+        return resps;
     }
 }

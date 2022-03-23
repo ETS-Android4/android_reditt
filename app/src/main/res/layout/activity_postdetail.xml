@@ -218,12 +218,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carView2">
 
-        <TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addcommentinput"
             android:layout_width="300dp"
             android:layout_height="35dp"
             android:background="@drawable/gradient"
-            android:fontFamily="@font/castoro"
+            android:fontFamily="@font/acme"
             android:hint="add comment"
             android:paddingLeft="10dp"
             android:textSize="16sp"
