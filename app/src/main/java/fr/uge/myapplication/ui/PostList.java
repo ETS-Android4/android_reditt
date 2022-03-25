@@ -7,18 +7,68 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.model.PC;
+import fr.uge.myapplication.model.Sru;
+import fr.uge.myapplication.service.network.Httpservice;
 
 public class PostList extends AppCompatActivity  {
 
     RecyclerView recycle;
-    Button newPost;
+    FloatingActionButton newPost;
+    PostAdapter postAdapter;
+    List<PC> pcs;
+
+    public void getdata(){
+        Httpservice.getinstance().setCtx(PostList.this);
+        Httpservice.getinstance().getJsonArray("http://192.168.1.114:8080/posts", new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray  response) {
+                for (int i = 0;i<response.length();i++){
+                    //System.out.println(response.getJSONObject(5).toString());
+                    try {
+                        JSONObject value = response.getJSONObject(i);
+                        PC pc = new PC();
+                        pc.setId(Long.parseLong(value.getString("id")));
+                        pc.setTitle(value.getString("title"));
+                        pc.setContent(value.getString("content"));
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        String dateInString = value.getString("date").split("\\.")[0];
+                        Date date = formatter.parse(dateInString);
+                        pc.setDate(date);
+                        Sru user = new Sru();
+                        user.setName(value.getJSONObject("author").getString("name"));
+                        pc.setAuthor(user);
+                        pcs.add(pc);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                postAdapter.setList(pcs);
+                postAdapter.refresh();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +76,9 @@ public class PostList extends AppCompatActivity  {
 
         recycle = findViewById(R.id.Ryc);
         recycle.setLayoutManager(new LinearLayoutManager(this));
-        PostAdapter postAdapter = new PostAdapter(this);
-        postAdapter.setItemClickListener(new PostAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                Intent intent = new Intent(PostList.this,Postdetail.class);
-                //intent.putExtra()
-                startActivity(intent);
-            }
-        });
+        postAdapter = new PostAdapter(this);
+        pcs = new Vector<>();
+        getdata();
         recycle.setAdapter(postAdapter);
 
 
@@ -44,6 +88,7 @@ public class PostList extends AppCompatActivity  {
             public void onClick(View view) {
                 Intent intent2 = new Intent(PostList.this, fr.uge.myapplication.ui.newPost.class);
                 startActivity(intent2);
+
             }
         });
     }

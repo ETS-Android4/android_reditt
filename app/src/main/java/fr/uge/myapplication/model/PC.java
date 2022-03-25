@@ -17,6 +17,10 @@ public class PC {
     private long upVote;
     private long downVote;
 
+    public PC(){
+
+    }
+
     public PC(Sru author, String content, String title, PC parent, Set<Sru> votersUp,
               Set<Sru> votersDown, Category category, Date date) {
         this.author = author;

@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -87,23 +88,9 @@ public class Httpservice {
         queue.add(request);
     }
 
-    public HttpResponseObject getRequest(String url){
+    public HttpResponseObject getRequest(String url , Response.Listener listener,Response.ErrorListener error){
         final HttpResponseObject[] resp = new HttpResponseObject[1];
-        StringRequest request = new StringRequest(Request.Method.POST, url ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        resp[0] = new HttpResponseObject(response.split(",")[0],response.split(",")[1]);
-                        System.out.println(response);
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.getMessage());
-                    }
-                }
+        StringRequest request = new StringRequest(Request.Method.POST, url ,listener, error
         ){
             @Override
             protected Response < String > parseNetworkResponse(NetworkResponse response) {
@@ -127,28 +114,15 @@ public class Httpservice {
         return resp[0];
     }
 
-    public JSONObject getjsonObject(String url){
-        final HttpResponseObject[] resp = new HttpResponseObject[1];
-        final JSONObject[] jsonObject = {null};
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                jsonObject[0] = response;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-
+    public void getJsonArray(String url,Response.Listener listener,Response.ErrorListener errorListener){
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,listener,errorListener){
         };
-
         queue.add(request);
-        return jsonObject[0];
+    }
+    public void getJsonobj(String url,JSONObject js,Response.Listener listener,Response.ErrorListener errorListener){
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, js,listener,errorListener){
+        };
+        queue.add(request);
     }
 
-    public String getResps() {
-        return resps;
-    }
 }
