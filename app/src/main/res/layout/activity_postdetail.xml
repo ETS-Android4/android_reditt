@@ -33,7 +33,7 @@
             android:paddingRight="20dp">
 
             <TextView
-                android:id="@+id/datedetail"
+                android:id="@+id/authordetail"
                 android:layout_width="76dp"
                 android:layout_height="21dp"
                 android:layout_margin="8dp"
@@ -48,17 +48,40 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/contentdetail"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintHorizontal_bias="0.239"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.53"
+                app:layout_constraintVertical_bias="0.703"
                 tools:text="@tools:sample/full_names" />
 
             <TextView
-                android:id="@+id/authordetail"
-                android:layout_width="134dp"
+                android:id="@+id/datedetail"
+                android:layout_width="150dp"
+                android:layout_height="21dp"
+                android:layout_margin="8dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:padding="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/contentdetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.703"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/titledetail"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_margin="8dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center_vertical"
                 android:lines="1"
@@ -69,7 +92,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.305"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/full_names" />
@@ -91,9 +114,9 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="87dp"
+                android:layout_width="50dp"
                 android:layout_height="46dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +219,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carView1">
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listcomment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
