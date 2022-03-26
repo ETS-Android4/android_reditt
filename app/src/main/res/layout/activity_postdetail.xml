@@ -32,6 +32,21 @@
             android:paddingLeft="10dp"
             android:paddingRight="20dp">
 
+            <ImageButton
+                android:id="@+id/modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="228dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/gradient2"
+                android:contentDescription="@string/next"
+                android:elevation="10dp"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/likee" />
+
             <TextView
                 android:id="@+id/authordetail"
                 android:layout_width="76dp"
@@ -139,8 +154,8 @@
                 android:id="@+id/nbdislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="160dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="144dp"
+                android:layout_marginBottom="12dp"
                 android:fontFamily="@font/acme"
                 android:text="10"
                 android:textSize="12sp"
@@ -165,7 +180,21 @@
                 android:id="@+id/dislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="108dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/gradient2"
+                android:contentDescription="@string/next"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/dislike" />
+
+            <ImageButton
+                android:id="@+id/deletepost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="164dp"
                 android:layout_marginBottom="2dp"
                 android:background="@drawable/gradient2"
                 android:contentDescription="@string/next"
@@ -174,28 +203,28 @@
                 android:rotationX="180"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/likee" />
+                app:srcCompat="@drawable/dislike" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/acme"
                 android:text="comments"
                 android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.953"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/nbcomment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="260dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="288dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/acme"
                 android:text="50"
                 android:textColor="#6C6A6A"

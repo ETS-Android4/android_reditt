@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,15 +31,60 @@ public class ModifyPost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_post);
         title = findViewById(R.id.modifytitlePost);
-        content = findViewById(R.id.modifytitlePost);
+        content = findViewById(R.id.modifycontentpost);
+        getdata();
         Button b = findViewById(R.id.modifypostbtn);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                JSONObject js = new JSONObject();
+                long id = getIntent().getLongExtra("id",0);
+                try {
+                    js.put("id",id);
+                    js.put("title",title.getEditableText().toString());
+                    js.put("content",content.getEditableText().toString());
+                    Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/modifyPost", js, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(response.split(",")[0].equals("200")){
+                                ModifyPost.this.finish();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(ModifyPost.this,"can't creat post",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }catch (Exception e){
+                }
             }
         });
 
     }
 
+    void getdata(){
+        long id = getIntent().getLongExtra("id",0);
+        Httpservice.getinstance().setCtx(ModifyPost.this);
+        Httpservice.getinstance().getJsonArray("http://192.168.1.114:8080/post/"+id, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray  response) {
+                try {
+                    JSONObject value = response.getJSONObject(0);
+                    PC pc = new PC();
+                    pc.setId(Long.parseLong(value.getString("id")));
+                    title.setText(value.getString("title"));
+                    content.setText(value.getString("content"));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
 }

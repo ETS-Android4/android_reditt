@@ -38,7 +38,6 @@ public class PostList extends AppCompatActivity  {
             @Override
             public void onResponse(JSONArray  response) {
                 for (int i = 0;i<response.length();i++){
-                    //System.out.println(response.getJSONObject(5).toString());
                     try {
                         JSONObject value = response.getJSONObject(i);
                         PC pc = new PC();
@@ -70,26 +69,32 @@ public class PostList extends AppCompatActivity  {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_list);
-
+    protected void onRestart() {
+        System.out.println("getdata()");
+        init();
+        super.onRestart();
+    }
+    void init(){
         recycle = findViewById(R.id.Ryc);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(this);
         pcs = new Vector<>();
         getdata();
         recycle.setAdapter(postAdapter);
-
-
         newPost = findViewById(R.id.createNewPost);
         newPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent2 = new Intent(PostList.this, fr.uge.myapplication.ui.newPost.class);
                 startActivity(intent2);
-
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post_list);
+        init();
     }
 }

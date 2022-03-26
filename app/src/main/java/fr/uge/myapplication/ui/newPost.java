@@ -73,7 +73,7 @@ public class newPost extends AppCompatActivity {
                     System.out.println(response.split(",").length);
                     System.out.println(response.split(",")[0]);
                     try {
-
+                        Httpservice.getinstance().setUsername("Ilyass");
                         System.out.println(response.split(",")[2]);
                         http.setCokkie(response.split(",")[2]);
                     }catch (Exception e){

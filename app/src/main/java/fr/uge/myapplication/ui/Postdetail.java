@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -42,11 +43,20 @@ public class Postdetail extends AppCompatActivity {
     TextView nbcomments;
     ImageButton Ilike;
     ImageButton Inotlike;
+    ImageButton deletePost;
+    ImageButton modify;
     RecyclerView recycle;
     Button addcomb;
     CommentaireAdapter adapter;
     List<PC> list = new Vector<>();
     TextInputEditText addcom;
+
+    @Override
+    protected void onRestart() {
+        getdata();
+        super.onRestart();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +67,8 @@ public class Postdetail extends AppCompatActivity {
         datet = findViewById(R.id.datedetail);
         nblikes = findViewById(R.id.nblike);
         nbdislikes = findViewById(R.id.nbdislike);
+        deletePost = findViewById(R.id.deletepost);
+        modify = findViewById(R.id.modify);
         nbcomments = findViewById(R.id.nbcomment);
         recycle = findViewById(R.id.listcomment);
         addcom = findViewById(R.id.addcommentinput);
@@ -81,43 +93,69 @@ public class Postdetail extends AppCompatActivity {
                 addComment();
             }
         });
+
         Ilike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long id = getIntent().getLongExtra("id",0);
-                list = new Vector<>();
-                Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeUpVote/" + id, null,new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        getdata();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                if(auth.getText().toString().equals("Me")){
+                    Toast.makeText(Postdetail.this,"you can like your own Post",Toast.LENGTH_LONG).show();
+                }else {
+                    long id = getIntent().getLongExtra("id",0);
+                    list = new Vector<>();
+                    Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeUpVote/" + id, null,new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            getdata();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
+
         Inotlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long id = getIntent().getLongExtra("id",0);
-                Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeDownVote/" + id,null, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("not added");
-                        getdata();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                if(auth.getText().toString().equals("Me")){
+                    Toast.makeText(Postdetail.this,"you can dislike your own Post",Toast.LENGTH_LONG).show();
+                }else {
+                    long id = getIntent().getLongExtra("id",0);
+                    Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeDownVote/" + id,null, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            System.out.println("not added");
+                            getdata();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
 
+        deletePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delete();
+            }
+        });
+
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long id = getIntent().getLongExtra("id",0);
+                Intent intent = new Intent(Postdetail.this,ModifyPost.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
         recycle.setAdapter(adapter);
 
     }
@@ -138,7 +176,13 @@ public class Postdetail extends AppCompatActivity {
                         String dateInString = value.getString("date").split("\\.")[0];
                         Date date = formatter.parse(dateInString);
                         datet.setText(date.toString());
-                        auth.setText(value.getJSONObject("author").getString("name"));
+                        if(value.getJSONObject("author").getString("name").equals(Httpservice.getinstance().getUsername())){
+                            auth.setText("Me");
+
+                        }else{
+                            auth.setText(value.getJSONObject("author").getString("name"));
+                            deletePost.setVisibility(View.INVISIBLE);
+                        }
                         nblikes.setText(value.getString("upVote"));
                         nbdislikes.setText(value.getString("downVote"));
 
@@ -220,4 +264,21 @@ public class Postdetail extends AppCompatActivity {
         });
     }
 
+    void delete(){
+        long id = getIntent().getLongExtra("id",0);
+        Httpservice.getinstance().deleteRequest("http://192.168.1.114:8080/user/deletePc/" + id, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Postdetail.this.finish();
+                } catch (Throwable throwable) {
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
 }

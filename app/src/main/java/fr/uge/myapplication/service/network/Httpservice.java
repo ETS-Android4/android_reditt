@@ -31,6 +31,7 @@ public class Httpservice {
     private RequestQueue queue;
     private String resps ;
     String cokkie ="none";
+    String username ="notconnected";
 
     private Httpservice(){
     }
@@ -39,6 +40,14 @@ public class Httpservice {
         this.ctx = ctx;
 
         queue = Volley.newRequestQueue(ctx);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getCokkie() {
@@ -55,7 +64,7 @@ public class Httpservice {
 
 
     public void postRequest(String url, JSONObject jsonBody , Response.Listener listener,Response.ErrorListener error){
-        if(jsonBody !=null){
+        if(jsonBody ==null){
             jsonBody = new JSONObject();
         }
         final String requestBody = jsonBody.toString();
@@ -128,6 +137,68 @@ public class Httpservice {
         };
         queue.add(request);
     }
+    public void deleteRequest(String url, Response.Listener listener,Response.ErrorListener error){
+
+        StringRequest request = new StringRequest(Request.Method.DELETE, url ,listener,error){
+
+
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                if(cokkie.equals("none"))
+                    return super.getHeaders();
+                Map<String,String> header  = new HashMap<String, String>();
+                header.put("Cookie",cokkie);
+
+                return header;
+            }
+
+
+
+            @Override
+            protected Response <String> parseNetworkResponse(NetworkResponse response) {
+                String parsed = String.valueOf(response.statusCode);
+                String cookie = "" ;
+                try {
+                    if(response.statusCode == 200) {
+                        try {
+                            for (Header h:response.allHeaders) {
+                                if(h.getName().equals("Set-Cookie")){
+                                    cookie = h.getValue().split(";")[0];
+
+
+                                } System.out.println(h.getName() + " =>" + h.getValue());
+                            }
+                        }catch (Exception e){
+
+                        }
+                        parsed += "," + new String(response.data, HttpHeaderParser.parseCharset(response.headers))+","+ cookie ;
+                    }
+                    //parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                } catch (UnsupportedEncodingException e) {
+                    parsed = new String(response.data);
+                }
+
+                return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+
+            }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                System.out.println("error");
+                return super.parseNetworkError(volleyError);
+            }
+        };
+        queue.add(request);
+    }
+
+
 
     public HttpResponseObject getRequest(String url , Response.Listener listener,Response.ErrorListener error){
         final HttpResponseObject[] resp = new HttpResponseObject[1];

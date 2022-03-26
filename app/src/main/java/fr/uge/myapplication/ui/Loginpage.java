@@ -36,8 +36,9 @@ public class Loginpage extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if(response.split(",")[0].equals("200")){
-                            try {
 
+                            try {
+                                Httpservice.getinstance().setUsername(username.getText().toString());
                                 System.out.println(response.split(",")[2]);
                                 Httpservice.getinstance().setCokkie(response.split(",")[2]);
                             }catch (Exception e){
