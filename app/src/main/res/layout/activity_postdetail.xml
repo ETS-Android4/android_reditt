@@ -209,7 +209,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/carView2"
         android:layout_width="396dp"
-        android:layout_height="137dp"
+        android:layout_height="250dp"
         android:layout_margin="8dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
@@ -222,7 +222,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listcomment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="229dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"

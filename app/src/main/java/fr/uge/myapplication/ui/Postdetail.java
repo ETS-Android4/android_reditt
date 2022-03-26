@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,6 +43,7 @@ public class Postdetail extends AppCompatActivity {
     ImageButton Ilike;
     ImageButton Inotlike;
     RecyclerView recycle;
+    Button addcomb;
     CommentaireAdapter adapter;
     List<PC> list = new Vector<>();
     TextInputEditText addcom;
@@ -60,7 +62,7 @@ public class Postdetail extends AppCompatActivity {
         addcom = findViewById(R.id.addcommentinput);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CommentaireAdapter(this);
-
+        addcomb = findViewById(R.id.buttoncomment);
         auth.setText("");
         title.setText("");
         content.setText("");
@@ -73,10 +75,46 @@ public class Postdetail extends AppCompatActivity {
         Inotlike = findViewById(R.id.dislike);
         getdata();
 
+        addcomb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addComment();
+            }
+        });
         Ilike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long id = getIntent().getLongExtra("id",0);
+                list = new Vector<>();
+                Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeUpVote/" + id, null,new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        getdata();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
+                    }
+                });
+            }
+        });
+        Inotlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long id = getIntent().getLongExtra("id",0);
+                Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeDownVote/" + id,null, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("not added");
+                        getdata();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
             }
         });
 
@@ -114,6 +152,11 @@ public class Postdetail extends AppCompatActivity {
 
             }
         });
+       getcomment();
+    }
+    void getcomment(){
+        long id = getIntent().getLongExtra("id",0);
+        list = new Vector<>();
         Httpservice.getinstance().getJsonArray("http://192.168.1.114:8080/post/seeUnderComs/" + id, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -153,4 +196,28 @@ public class Postdetail extends AppCompatActivity {
             }
         });
     }
+    void addComment(){
+        JSONObject js = new JSONObject();
+        long id = getIntent().getLongExtra("id",0);
+        try {
+            js.put("postid",id);
+            js.put("content",addcom.getEditableText().toString());
+        }catch (Exception e){
+
+        }
+        System.out.println("good!?");
+        Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/createCom", js, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(Postdetail.this,"Comment created",Toast.LENGTH_LONG).show();
+                getcomment();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
 }

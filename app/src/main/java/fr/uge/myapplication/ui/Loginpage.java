@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.service.AuthService;
+import fr.uge.myapplication.service.network.Httpservice;
 
 public class Loginpage extends AppCompatActivity {
 
@@ -29,11 +30,19 @@ public class Loginpage extends AppCompatActivity {
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AuthService auth = new AuthService(Loginpage.this);
+                Httpservice.getinstance().setCtx(Loginpage.this);
+                AuthService auth = new AuthService(Httpservice.getinstance());
                 auth.login(username.getText().toString(), passwd.getText().toString(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         if(response.split(",")[0].equals("200")){
+                            try {
+
+                                System.out.println(response.split(",")[2]);
+                                Httpservice.getinstance().setCokkie(response.split(",")[2]);
+                            }catch (Exception e){
+
+                            }
                             if(username.getText().equals("admin")){
 
 //                                Intent intent = new Intent(Loginpage.this,PostList.class);

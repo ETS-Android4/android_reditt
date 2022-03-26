@@ -14,16 +14,14 @@ import fr.uge.myapplication.service.network.Httpservice;
 
 public class AuthService {
 
-    Context ctx;
-    String url ="http://192.168.250.36:8080/" ;
+    String url ="http://192.168.1.114:8080/" ;
+    Httpservice http;
 
-    public AuthService(Context ctx) {
-        this.ctx = ctx;
-        Httpservice.getinstance().setCtx(ctx);
+    public AuthService(Httpservice http) {
+        this.http = http;
     }
 
     public void login(String username, String passwd, Response.Listener listener,Response.ErrorListener error){
-        Httpservice http = Httpservice.getinstance();
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", username);
@@ -32,12 +30,10 @@ public class AuthService {
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
-        final HttpResponseObject[] responseObject = new HttpResponseObject[1];
         http.postRequest(url + "login", jsonBody, listener,error);
     }
 
     public void signup(String username,String passwd,String eamil, Response.Listener listener,Response.ErrorListener error){
-        Httpservice http = Httpservice.getinstance();
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", username);
@@ -50,13 +46,10 @@ public class AuthService {
     }
 
     public void logout(Response.Listener listener,Response.ErrorListener error){
-        Httpservice http = Httpservice.getinstance();
-
         http.postRequest(url+"/user/logout",null,listener,error);
     }
 
     public void modifypasswd(String old,String newpwd, Response.Listener listener,Response.ErrorListener error){
-        Httpservice http = Httpservice.getinstance();
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", old);

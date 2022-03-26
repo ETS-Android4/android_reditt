@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Header;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,20 +22,31 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Httpservice {
     private final static Httpservice instance = new Httpservice();
     private Context ctx;
     private RequestQueue queue;
     private String resps ;
-
+    String cokkie ="none";
 
     private Httpservice(){
     }
 
     public void setCtx(Context ctx) {
         this.ctx = ctx;
+
         queue = Volley.newRequestQueue(ctx);
+    }
+
+    public String getCokkie() {
+        return cokkie;
+    }
+
+    public void setCokkie(String cokkie) {
+        this.cokkie = cokkie;
     }
 
     public static Httpservice getinstance(){
@@ -43,9 +55,13 @@ public class Httpservice {
 
 
     public void postRequest(String url, JSONObject jsonBody , Response.Listener listener,Response.ErrorListener error){
-        final HttpResponseObject[] resp = new HttpResponseObject[1];
+        if(jsonBody !=null){
+            jsonBody = new JSONObject();
+        }
         final String requestBody = jsonBody.toString();
         StringRequest request = new StringRequest(Request.Method.POST, url ,listener,error){
+
+
 
             @Override
             public String getBodyContentType() {
@@ -62,13 +78,38 @@ public class Httpservice {
                 }
             }
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                if(cokkie.equals("none"))
+                    return super.getHeaders();
+                Map<String,String> header  = new HashMap<String, String>();
+                System.out.println("this good");
+                header.put("Cookie",cokkie);
+
+                return header;
+            }
+
+
 
             @Override
             protected Response <String> parseNetworkResponse(NetworkResponse response) {
                 String parsed = String.valueOf(response.statusCode);
+                String cookie = "" ;
                 try {
                     if(response.statusCode == 200) {
-                        parsed += "," + new String(response.data, HttpHeaderParser.parseCharset(response.headers)) ;
+                        try {
+                            for (Header h:response.allHeaders) {
+                                if(h.getName().equals("Set-Cookie")){
+                                    cookie = h.getValue().split(";")[0];
+
+
+                                } System.out.println(h.getName() + " =>" + h.getValue());
+                            }
+                        }catch (Exception e){
+
+                        }
+                        parsed += "," + new String(response.data, HttpHeaderParser.parseCharset(response.headers))+","+ cookie ;
                     }
                     //parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                 } catch (UnsupportedEncodingException e) {

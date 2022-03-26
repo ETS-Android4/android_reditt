@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.service.AuthService;
+import fr.uge.myapplication.service.network.Httpservice;
 
 public class RegisterActivity extends AppCompatActivity {
     @Override
@@ -32,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(passwd.getText().toString().equals(passwd2.getText().toString())){
-                    AuthService auth = new AuthService(RegisterActivity.this);
+                    AuthService auth = new AuthService(Httpservice.getinstance());
                     auth.signup(username.getText().toString(), passwd.getText().toString(), email.getText().toString(), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
