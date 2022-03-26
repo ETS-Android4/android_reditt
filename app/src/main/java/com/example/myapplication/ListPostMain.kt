@@ -16,7 +16,8 @@ class ListPostMain : AppCompatActivity() {
     private lateinit var Data : ArrayList<Post>
 
     /************** temporal variable to do our test ******************/
-    private lateinit var author : Array<String>
+
+    public   lateinit var author : Array<String>
     private lateinit var Date : Array<String>
     private lateinit var content : Array<String>
     private lateinit var title : Array<String>
@@ -26,14 +27,15 @@ class ListPostMain : AppCompatActivity() {
     private lateinit var comment1 :Array<String>
     private lateinit var comment2 :Array<String>
     private lateinit var comment3 :Array<String>
-
     private var requestQueue: RequestQueue? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     /*************************create temporal data to test our recycleView *************/
-        author = arrayOf(
+         author = arrayOf(
             "adem", "houssam", "anis",
             "adem", "houssam", "anis",
             "adem", "houssam", "anis",

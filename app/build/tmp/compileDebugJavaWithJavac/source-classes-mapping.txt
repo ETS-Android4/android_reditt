@@ -1,0 +1,12 @@
+com/example/myapplication/databinding/ItemPostBinding.java
+ com.example.myapplication.databinding.ItemPostBinding
+com/example/myapplication/BuildConfig.java
+ com.example.myapplication.BuildConfig
+com/example/myapplication/databinding/ActivityMainBinding.java
+ com.example.myapplication.databinding.ActivityMainBinding
+com/example/myapplication/databinding/PostDetailsBinding.java
+ com.example.myapplication.databinding.PostDetailsBinding
+com/example/myapplication/databinding/ActivityNewPostBinding.java
+ com.example.myapplication.databinding.ActivityNewPostBinding
+com/example/myapplication/databinding/ListcommentviewBinding.java
+ com.example.myapplication.databinding.ListcommentviewBinding

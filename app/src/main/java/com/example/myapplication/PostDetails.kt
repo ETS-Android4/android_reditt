@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 
-
 class PostDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +43,9 @@ class PostDetails : AppCompatActivity() {
         nbcomment.text=commentbundele.size.toString()
 
         /*************************************ListViewComment Adapter ******************************/
-        var ArrayAdapter  = ArrayAdapter<String>(this,R.layout.listcommentview,commentbundele )
+        var ArrayAdapter=   ArrayAdapter<String>(this,R.layout.listcommentview,commentbundele )
         val listView = findViewById<View>(R.id.listcomment) as ListView
         listView.adapter = ArrayAdapter
-
         /*******************************Event ***********************************/
 
         likeButtom.setOnClickListener {

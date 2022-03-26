@@ -1,5 +1,4 @@
 package com.example.myapplication
-
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,12 +16,9 @@ class PostAdapter (private val listadem : ArrayList<Post>) :
         listnerAdem = lst
     }
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): PostAdapter.MyViewHolder {
-
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_post,parent ,false)
         return  MyViewHolder(itemView,listnerAdem)
-
     }
-
     override fun onBindViewHolder(holder: PostAdapter.MyViewHolder, position: Int) {
         val currnetItem = listadem[position]
 
@@ -30,13 +26,10 @@ class PostAdapter (private val listadem : ArrayList<Post>) :
         holder.author.text=currnetItem.author
         holder.date.text=currnetItem.date
     }
-
     override fun getItemCount(): Int {
         return listadem.size
     }
-
     class MyViewHolder (itemView : View , listner :OnItemClickListner) : RecyclerView.ViewHolder(itemView) {
-
 
         val title: TextView= itemView.findViewById(R.id.titlePub)
         val author : TextView = itemView.findViewById((R.id.author))
@@ -45,9 +38,7 @@ class PostAdapter (private val listadem : ArrayList<Post>) :
             itemView.setOnClickListener{
                 listner.OnClickListener(adapterPosition)
             }
-
         }
-
     }
 }
 
