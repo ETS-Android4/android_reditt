@@ -1,21 +1,36 @@
 package fr.uge.myapplication.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -27,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import fr.uge.myapplication.R;
@@ -36,7 +52,7 @@ import fr.uge.myapplication.service.network.Httpservice;
 import fr.uge.myapplication.ui.PostAdapter;
 import fr.uge.myapplication.ui.PostList;
 
-public class ProfilePageActivity2 extends AppCompatActivity {
+public class ProfilePageActivity2 extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private TextView Name;
@@ -45,6 +61,7 @@ public class ProfilePageActivity2 extends AppCompatActivity {
     private TextView Date;
     private TextView Country;
     private ImageView Profile;
+    FusedLocationProviderClient locationProvider;
     int a;
     RecyclerView recycle;
 
@@ -104,8 +121,36 @@ public class ProfilePageActivity2 extends AppCompatActivity {
         postAdapter = new PostAdapter(this);
         pcs = new Vector<>();
         getdata();
+        locationProvider= LocationServices.getFusedLocationProviderClient(this);
+        if(
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION )!= PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1 );
+            return;
+        }
 
+        Task<Location> task = locationProvider.getLastLocation();
+        task.addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    Geocoder geocoder = new Geocoder(ProfilePageActivity2.this, Locale.getDefault());
+                    List<Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                        String cityName = addresses.get(0).getAddressLine(0);
+                        String countryName = addresses.get(0).getCountryName();
+                        Country.setText(countryName+","+cityName.split(",")[1]);
+                    }catch (Exception e){
 
+                    }
+
+                } else {
+                    Toast.makeText(ProfilePageActivity2.this, "Cannot get user current location at the moment", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         recycle.setAdapter(postAdapter);
@@ -197,5 +242,20 @@ public class ProfilePageActivity2 extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==1){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                inti();
+            }
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
