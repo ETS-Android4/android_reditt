@@ -52,7 +52,7 @@ public class PostList extends AppCompatActivity implements NavigationView.OnNavi
                         pc.setId(Long.parseLong(value.getString("id")));
                         pc.setTitle(value.getString("title"));
                         pc.setContent(value.getString("content"));
-
+                        pc.setPos(value.getString("pos"));
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                         String dateInString = value.getString("date").split("\\.")[0];
                         Date date = formatter.parse(dateInString);

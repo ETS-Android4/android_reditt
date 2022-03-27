@@ -42,6 +42,7 @@ public class Postdetail extends AppCompatActivity {
     TextView nblikes;
     TextView nbdislikes;
     TextView nbcomments;
+    TextView pos;
     ImageButton Ilike;
     ImageButton Inotlike;
     Button deletePost;
@@ -68,6 +69,7 @@ public class Postdetail extends AppCompatActivity {
         datet = findViewById(R.id.datedetail);
         nblikes = findViewById(R.id.nblike);
         nbdislikes = findViewById(R.id.nbdislike);
+        pos = findViewById(R.id.pos);
         deletePost = findViewById(R.id.deletepost);
         modify = findViewById(R.id.modify);
         nbcomments = findViewById(R.id.nbcomment);
@@ -83,6 +85,7 @@ public class Postdetail extends AppCompatActivity {
         nblikes.setText("");
         nbdislikes.setText("");
         nbcomments.setText(0+"");
+        pos.setText("");
 
 
         Ilike = findViewById(R.id.like);
@@ -181,6 +184,7 @@ public class Postdetail extends AppCompatActivity {
                         pc.setId(Long.parseLong(value.getString("id")));
                         title.setText(value.getString("title"));
                         content.setText(value.getString("content"));
+                        pos.setText(value.getString("pos"));
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                         String dateInString = value.getString("date").split("\\.")[0];
                         Date date = formatter.parse(dateInString);

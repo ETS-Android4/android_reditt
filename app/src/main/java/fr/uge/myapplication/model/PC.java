@@ -12,6 +12,7 @@ public class PC {
     private Set<Sru> votersUp;
     private Set<Sru> votersDown;
     private Date date;
+    private String pos;
     private String title;
     private String content;
     private long upVote;
@@ -21,8 +22,9 @@ public class PC {
 
     }
 
-    public PC(Sru author, String content, String title, PC parent, Set<Sru> votersUp,
+    public PC(Sru author, String content, String title,String pos, PC parent, Set<Sru> votersUp,
               Set<Sru> votersDown, Category category, Date date) {
+        this.pos = pos;
         this.author = author;
         this.content = content;
         this.title = title;
@@ -36,6 +38,13 @@ public class PC {
         addMapping(author, category, votersUp, votersDown);
     }
 
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
     public PC(Sru author, String title, String content, PC parent, Category category, Date date) {
         this.author = author;
         this.parent = parent;

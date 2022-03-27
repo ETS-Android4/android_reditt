@@ -93,7 +93,6 @@ public class Httpservice {
                 if(cokkie.equals("none"))
                     return super.getHeaders();
                 Map<String,String> header  = new HashMap<String, String>();
-                System.out.println("this good");
                 header.put("Cookie",cokkie);
 
                 return header;
@@ -113,7 +112,7 @@ public class Httpservice {
                                     cookie = h.getValue().split(";")[0];
 
 
-                                } System.out.println(h.getName() + " =>" + h.getValue());
+                                }
                             }
                         }catch (Exception e){
 
@@ -173,7 +172,7 @@ public class Httpservice {
                                     cookie = h.getValue().split(";")[0];
 
 
-                                } System.out.println(h.getName() + " =>" + h.getValue());
+                                }
                             }
                         }catch (Exception e){
 
@@ -234,7 +233,6 @@ public class Httpservice {
                 if(cokkie.equals("none"))
                     return super.getHeaders();
                 Map<String,String> header  = new HashMap<String, String>();
-                System.out.println("this good");
                 header.put("Cookie",cokkie);
 
                 return header;
