@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:icon="@drawable/photo1"
+        android:id="@+id/myprofil"
+        android:title="My profil"
+        />
+    <item android:title="Posts">
+        <menu>
+
+            <item
+                android:icon="@drawable/list"
+                android:id="@+id/listpostslink"
+                android:title="list des posts"
+                />
+            <item
+                android:icon="@drawable/newposticon"
+                android:id="@+id/nouveaupost"
+                android:title="new post"
+                />
+        </menu>
+    </item>
+
+
+    <item
+        android:icon="@drawable/logout"
+        android:id="@+id/logout"
+        android:title="Log out"
+        />
+
+</menu>

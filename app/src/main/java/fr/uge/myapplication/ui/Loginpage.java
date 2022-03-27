@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.service.AuthService;
 import fr.uge.myapplication.service.network.Httpservice;
+import fr.uge.myapplication.ui.admin.ListPostAdmin;
 
 public class Loginpage extends AppCompatActivity {
 
@@ -44,13 +45,13 @@ public class Loginpage extends AppCompatActivity {
                             }catch (Exception e){
 
                             }
-                            if(username.getText().equals("admin")){
+                            if(username.getText().toString().equals("admin")){
 
-//                                Intent intent = new Intent(Loginpage.this,PostList.class);
-//                                startActivity(intent);
+                                Intent intent = new Intent(Loginpage.this, ListPostAdmin.class);
+                                startActivity(intent);
                             }else {
 
-                                Intent intent = new Intent(Loginpage.this,newPost.class);
+                                Intent intent = new Intent(Loginpage.this,PostList.class);
                                 startActivity(intent);
                             }
 

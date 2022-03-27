@@ -38,7 +38,7 @@
                 android:layout_height="37dp"
                 android:fontFamily="@font/acme"
 
-                android:text="Username :"
+                android:text="current passwd :"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#D51010"
                 android:textSize="17sp"
@@ -46,7 +46,7 @@
                 android:translationY="200dp" />
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/currentpass"
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
@@ -66,40 +66,12 @@
                 android:layout_height="40dp"
                 android:fontFamily="@font/acme"
 
-                android:text="Currentpass :"
+                android:text="New pass :"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#D51010"
                 android:textSize="17sp"
                 android:translationX="40dp"
                 android:translationY="240dp" />
-
-            <EditText
-                android:id="@+id/currentpass"
-                android:layout_width="225dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FFFFFF"
-                android:ems="10"
-                android:hint="Taper un nom"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:textColor="#C6C4C4"
-                android:textColorHint="#D6D3D3"
-                android:textSize="14sp"
-                android:translationX="155dp"
-                android:translationY="225dp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:fontFamily="@font/acme"
-
-                android:text="Newpass :"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#D51010"
-                android:textSize="17sp"
-                android:translationX="40dp"
-                android:translationY="280dp" />
 
             <EditText
                 android:id="@+id/newpass"
@@ -112,32 +84,39 @@
                 android:minHeight="48dp"
                 android:textColor="#C6C4C4"
                 android:textColorHint="#D6D3D3"
+                android:password="true"
                 android:textSize="14sp"
                 android:translationX="155dp"
-                android:translationY="265dp" />
+                android:translationY="225dp" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:fontFamily="@font/acme"
 
-                android:text="Country :"
+                android:text="validate pass :"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#D51010"
                 android:textSize="17sp"
                 android:translationX="40dp"
-                android:translationY="370dp" />
+                android:translationY="280dp" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="134dp"
+            <EditText
+                android:id="@+id/repeatpass"
+                android:layout_width="225dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radius_btn"
-                android:contentDescription="@string/app_name"
+                android:backgroundTint="#FFFFFF"
+                android:ems="10"
+                android:hint="Taper un nom"
+                android:password="true"
+                android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:textColor="#C6C4C4"
+                android:textColorHint="#D6D3D3"
+                android:textSize="14sp"
                 android:translationX="155dp"
-                android:translationY="360dp" />
+                android:translationY="265dp" />
 
             <Button
 

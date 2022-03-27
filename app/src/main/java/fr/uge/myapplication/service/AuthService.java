@@ -42,22 +42,23 @@ public class AuthService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        http.postRequest(url+"/signup",jsonBody,listener,error);
+        http.postRequest(url+"signup",jsonBody,listener,error);
+
     }
 
     public void logout(Response.Listener listener,Response.ErrorListener error){
-        http.postRequest(url+"/user/logout",null,listener,error);
+        http.postRequest(url+"user/logout",null,listener,error);
     }
 
     public void modifypasswd(String old,String newpwd, Response.Listener listener,Response.ErrorListener error){
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("name", old);
-            jsonBody.put("pwd", newpwd);
+            jsonBody.put("oldpwd", old);
+            jsonBody.put("newpwd", newpwd);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        http.postRequest(url+"/user/modifyPwd",jsonBody,listener,error);
+        http.postRequest(url+"user/modifyPwd",jsonBody,listener,error);
 
     }
 }

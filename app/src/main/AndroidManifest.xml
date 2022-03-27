@@ -12,13 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.ModifyPost"></activity>
+
+        <activity android:name=".ui.admin.ListPostAdmin"></activity>
+        <activity android:name=".ui.ModifyPost" />
         <activity android:name=".ui.Postdetail" />
         <activity android:name=".ui.PostList" />
         <activity android:name=".ui.newPost" />
         <activity
             android:name=".ui.Loginpage"
             android:label="@string/title_activity_login"
+            android:theme="@style/Theme.MyApplication.NoActionBar" />
+        <activity
+            android:name=".ui.RegisterActivity"
             android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
             android:name=".ui.profile.ProfilePicsActivity2"

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,8 +44,8 @@ public class Postdetail extends AppCompatActivity {
     TextView nbcomments;
     ImageButton Ilike;
     ImageButton Inotlike;
-    ImageButton deletePost;
-    ImageButton modify;
+    Button deletePost;
+    Button modify;
     RecyclerView recycle;
     Button addcomb;
     CommentaireAdapter adapter;
@@ -83,10 +84,14 @@ public class Postdetail extends AppCompatActivity {
         nbdislikes.setText("");
         nbcomments.setText(0+"");
 
+
         Ilike = findViewById(R.id.like);
         Inotlike = findViewById(R.id.dislike);
         getdata();
-
+        if(Httpservice.getinstance().getUsername().equals("admin")){
+            addcomb.setVisibility(View.INVISIBLE);
+            addcom.setVisibility(View.INVISIBLE);
+        }
         addcomb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +104,9 @@ public class Postdetail extends AppCompatActivity {
             public void onClick(View view) {
                 if(auth.getText().toString().equals("Me")){
                     Toast.makeText(Postdetail.this,"you can like your own Post",Toast.LENGTH_LONG).show();
-                }else {
+                }else if(Httpservice.getinstance().getUsername().equals("admin")){
+                    Toast.makeText(Postdetail.this,"you cant like Posts",Toast.LENGTH_LONG).show();
+                } else {
                     long id = getIntent().getLongExtra("id",0);
                     list = new Vector<>();
                     Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeUpVote/" + id, null,new Response.Listener<String>() {
@@ -122,6 +129,8 @@ public class Postdetail extends AppCompatActivity {
             public void onClick(View view) {
                 if(auth.getText().toString().equals("Me")){
                     Toast.makeText(Postdetail.this,"you can dislike your own Post",Toast.LENGTH_LONG).show();
+                }else if(Httpservice.getinstance().getUsername().equals("admin")){
+                    Toast.makeText(Postdetail.this,"you cant dislike Posts",Toast.LENGTH_LONG).show();
                 }else {
                     long id = getIntent().getLongExtra("id",0);
                     Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/processChangeDownVote/" + id,null, new Response.Listener<String>() {
@@ -176,12 +185,13 @@ public class Postdetail extends AppCompatActivity {
                         String dateInString = value.getString("date").split("\\.")[0];
                         Date date = formatter.parse(dateInString);
                         datet.setText(date.toString());
-                        if(value.getJSONObject("author").getString("name").equals(Httpservice.getinstance().getUsername())){
+                        if(value.getJSONObject("author").getString("name").equals(Httpservice.getinstance().getUsername()) || Httpservice.getinstance().getUsername().equals("admin") ){
                             auth.setText("Me");
 
                         }else{
                             auth.setText(value.getJSONObject("author").getString("name"));
                             deletePost.setVisibility(View.INVISIBLE);
+                            modify.setVisibility(View.INVISIBLE);
                         }
                         nblikes.setText(value.getString("upVote"));
                         nbdislikes.setText(value.getString("downVote"));

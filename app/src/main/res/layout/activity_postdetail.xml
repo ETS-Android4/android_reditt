@@ -32,7 +32,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="20dp">
 
-            <ImageButton
+            <Button
                 android:id="@+id/modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,6 +40,7 @@
                 android:layout_marginBottom="2dp"
                 android:background="@drawable/gradient2"
                 android:contentDescription="@string/next"
+                android:text="Modify"
                 android:elevation="10dp"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
@@ -154,8 +155,8 @@
                 android:id="@+id/nbdislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="144dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="128dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/acme"
                 android:text="10"
                 android:textSize="12sp"
@@ -180,7 +181,7 @@
                 android:id="@+id/dislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginBottom="2dp"
                 android:background="@drawable/gradient2"
                 android:contentDescription="@string/next"
@@ -190,7 +191,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/dislike" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/deletepost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -198,12 +199,12 @@
                 android:layout_marginBottom="2dp"
                 android:background="@drawable/gradient2"
                 android:contentDescription="@string/next"
+                android:text="delete"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:rotationX="180"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/dislike" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/textView4"

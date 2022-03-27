@@ -33,7 +33,7 @@ public class newPost extends AppCompatActivity {
         content = findViewById(R.id.newcontentpost);
         http =Httpservice.getinstance();
         http.setCtx(newPost.this);
-        login();
+        //login();
         Button b = findViewById(R.id.createPost);
         b.setOnClickListener(new View.OnClickListener() {
             @Override

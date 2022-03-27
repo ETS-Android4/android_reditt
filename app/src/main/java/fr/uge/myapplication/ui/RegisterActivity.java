@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(passwd.getText().toString().equals(passwd2.getText().toString())){
+                    Httpservice.getinstance().setCtx(RegisterActivity.this);
                     AuthService auth = new AuthService(Httpservice.getinstance());
                     auth.signup(username.getText().toString(), passwd.getText().toString(), email.getText().toString(), new Response.Listener<String>() {
                         @Override
