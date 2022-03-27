@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,7 +52,15 @@ public class newPost extends AppCompatActivity {
         }
 
         GPS gps = new GPS(this);
-        System.out.println(gps.getLatitude());
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String countryName = addresses.get(0).getCountryName();
+            pos = countryName+","+cityName.split(",")[1];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     @Override
