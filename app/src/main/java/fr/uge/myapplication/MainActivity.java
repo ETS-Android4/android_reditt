@@ -53,21 +53,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //final DrawerLayout drawerLayout = findViewById(R.id.navigation);
-        login();
-        startActivity(new Intent(MainActivity.this, PostList.class));
+//        login();
+//        startActivity(new Intent(MainActivity.this, PostList.class));
 
-//        findViewById(R.id.loginpage).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, Loginpage.class));
-//            }
-//        });
-//        findViewById(R.id.signuppage).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-//            }
-//        });
+        findViewById(R.id.loginpage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Loginpage.class));
+            }
+        });
+        findViewById(R.id.signuppage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            }
+        });
 
     }
     void login(){
