@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //holder.textView.setText("Avatar. " + position);
 
         holder.itemView.setOnClickListener(view -> {
-            itemClickListener.onItemClick(arr[position]);
+            itemClickListener.onItemClick(position);
         });
     }
 

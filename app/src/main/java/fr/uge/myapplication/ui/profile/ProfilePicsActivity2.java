@@ -8,10 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
+
 import java.util.Vector;
 
 import fr.uge.myapplication.MainActivity;
 import fr.uge.myapplication.R;
+import fr.uge.myapplication.service.network.Httpservice;
 
 public class ProfilePicsActivity2 extends AppCompatActivity {
 
@@ -27,6 +33,7 @@ public class ProfilePicsActivity2 extends AppCompatActivity {
             R.drawable.photo10, R.drawable.photo11, R.drawable.photo12};
 
     Vector<Integer> f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +46,26 @@ public class ProfilePicsActivity2 extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(arr, new RecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                Intent intent = new Intent(ProfilePicsActivity2.this, MainActivity.class);
-                intent.putExtra("image", pos);
-                startActivity(intent);
+                Httpservice.getinstance().setCtx(ProfilePicsActivity2.this);
+                JSONObject js = new JSONObject();
+                try {
+                    js.put("avatar",(pos+1)+"");
+                }catch (Exception e){
+
+                }
+                Httpservice.getinstance().postRequest("http://192.168.1.114:8080/user/avatar", js, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.split(",")[0].equals("200")){
+                            ProfilePicsActivity2.this.finish();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
 
             }
         });

@@ -228,6 +228,17 @@ public class Httpservice {
 
     public void getJsonArray(String url,Response.Listener listener,Response.ErrorListener errorListener){
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,listener,errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                if(cokkie.equals("none"))
+                    return super.getHeaders();
+                Map<String,String> header  = new HashMap<String, String>();
+                System.out.println("this good");
+                header.put("Cookie",cokkie);
+
+                return header;
+            }
         };
         queue.add(request);
     }

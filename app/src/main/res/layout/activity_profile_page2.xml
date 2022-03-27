@@ -42,7 +42,6 @@
                     android:id="@+id/profile"
                     android:layout_width="135dp"
                     android:layout_height="169dp"
-                    android:src="@drawable/photo1"
                     android:translationX="30px" />
 
 
