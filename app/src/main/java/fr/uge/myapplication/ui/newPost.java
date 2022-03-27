@@ -16,10 +16,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -30,6 +26,7 @@ import java.util.Locale;
 
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.service.AuthService;
+import fr.uge.myapplication.service.GPS;
 import fr.uge.myapplication.service.network.Httpservice;
 import fr.uge.myapplication.ui.profile.ProfilePageActivity2;
 
@@ -37,7 +34,6 @@ public class newPost extends AppCompatActivity {
 
     TextInputEditText title;
     TextInputEditText content;
-    FusedLocationProviderClient locationProvider;
     Httpservice http;
     String pos;
 
@@ -46,7 +42,6 @@ public class newPost extends AppCompatActivity {
         content = findViewById(R.id.newcontentpost);
         http =Httpservice.getinstance();
         http.setCtx(newPost.this);
-        locationProvider= LocationServices.getFusedLocationProviderClient(this);
         if(
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION )!= PackageManager.PERMISSION_GRANTED &&
                         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED
@@ -55,27 +50,9 @@ public class newPost extends AppCompatActivity {
             return;
         }
 
-        Task<Location> task = locationProvider.getLastLocation();
-        task.addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    Geocoder geocoder = new Geocoder(newPost.this, Locale.getDefault());
-                    List<Address> addresses = null;
-                    try {
-                        addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        String cityName = addresses.get(0).getAddressLine(0).split(",")[1] + ","+addresses.get(0).getAddressLine(0).split(",")[2];
-                        String countryName = addresses.get(0).getCountryName();
-                        pos = cityName;
-                    }catch (Exception e){
+        GPS gps = new GPS(this);
+        System.out.println(gps.getLatitude());
 
-                    }
-
-                } else {
-                    Toast.makeText(newPost.this, "Cannot get user current location at the moment", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

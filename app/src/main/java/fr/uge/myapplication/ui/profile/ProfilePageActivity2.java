@@ -25,18 +25,12 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,11 +42,12 @@ import java.util.Vector;
 import fr.uge.myapplication.R;
 import fr.uge.myapplication.model.PC;
 import fr.uge.myapplication.model.Sru;
+import fr.uge.myapplication.service.GPS;
 import fr.uge.myapplication.service.network.Httpservice;
 import fr.uge.myapplication.ui.PostAdapter;
 import fr.uge.myapplication.ui.PostList;
 
-public class ProfilePageActivity2 extends AppCompatActivity implements OnMapReadyCallback {
+public class ProfilePageActivity2 extends AppCompatActivity {
 
 
     private TextView Name;
@@ -61,7 +56,6 @@ public class ProfilePageActivity2 extends AppCompatActivity implements OnMapRead
     private TextView Date;
     private TextView Country;
     private ImageView Profile;
-    FusedLocationProviderClient locationProvider;
     int a;
     RecyclerView recycle;
 
@@ -121,7 +115,8 @@ public class ProfilePageActivity2 extends AppCompatActivity implements OnMapRead
         postAdapter = new PostAdapter(this);
         pcs = new Vector<>();
         getdata();
-        locationProvider= LocationServices.getFusedLocationProviderClient(this);
+
+
         if(
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION )!= PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED
@@ -130,29 +125,16 @@ public class ProfilePageActivity2 extends AppCompatActivity implements OnMapRead
             return;
         }
 
-        Task<Location> task = locationProvider.getLastLocation();
-        task.addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    Geocoder geocoder = new Geocoder(ProfilePageActivity2.this, Locale.getDefault());
-                    List<Address> addresses = null;
-                    try {
-                        addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        String cityName = addresses.get(0).getAddressLine(0);
-                        String countryName = addresses.get(0).getCountryName();
-                        Country.setText(countryName+","+cityName.split(",")[1]);
-                    }catch (Exception e){
-
-                    }
-
-                } else {
-                    Toast.makeText(ProfilePageActivity2.this, "Cannot get user current location at the moment", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-
+        GPS gps = new GPS(this);
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String countryName = addresses.get(0).getCountryName();
+            Country.setText(countryName+","+cityName.split(",")[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         recycle.setAdapter(postAdapter);
     }
 
@@ -254,8 +236,4 @@ public class ProfilePageActivity2 extends AppCompatActivity implements OnMapRead
         }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-    }
 }
